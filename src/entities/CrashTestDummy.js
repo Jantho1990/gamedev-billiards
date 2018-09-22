@@ -10,36 +10,31 @@ class CrashTestDummy extends TileSprite {
   constructor(bounds) {
     super(texture, 48, 48)
     this.pivot = { x: 24, y: 24 }
+    this.radius = 24
     this.frame.x = math.rand(4)
     this.vel = new Vec()
     this.acc = new Vec()
     this.bounds = bounds
+    this.rotation = math.rand(4) * (Math.PI / 2)
   }
 
   update(dt) {
     const { pos, vel, bounds, w, h } = this
 
-    if (math.randOneIn(130)) {
+    if (math.randOneIn(1000)) {
+      const MAX_POWER = 500
       physics.applyImpulse(
         this,
         {
-          x: math.rand(-300, 300),
-          y: math.rand(-300, 300)
+          x: math.rand(-MAX_POWER, MAX_POWER),
+          y: math.rand(-MAX_POWER, MAX_POWER)
         },
         dt
       )
     }
 
-    const friction = vel.clone()
-      .multiply(-1)
-      .normalize()
-      .multiply(200)
-    const gravity = { x: 0, y: 500 }
-
-    physics.applyForce(this, friction)
-    physics.applyForce(this, gravity)
-
-    physics.integrate(this, dt)
+    physics.applyFriction(this, 100)
+    physics.integratePos(this, dt)
 
     // Bounce off the walls
     if (pos.x < 0 || pos.x > bounds.w - w) {

@@ -33,6 +33,9 @@ class Vec {
     return this.x * x + this.y * y
   }
 
+  /**
+   * Magnitude of the vector.
+   */
   mag() {
     const { x, y } = this
     return Math.sqrt(x * x + y * y)
@@ -41,6 +44,12 @@ class Vec {
   multiply(s) {
     this.x *= s
     this.y *= s
+    return this
+  }
+
+  divide(s) {
+    this.x /= s
+    this.y /= s
     return this
   }
 
